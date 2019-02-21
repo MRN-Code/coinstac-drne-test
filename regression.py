@@ -5,7 +5,6 @@ functions including calculation of the coefficient of determination R^2 and
 t-value
 """
 import numpy as np
-import scipy as sp
 import warnings
 from scipy import stats
 
@@ -137,7 +136,7 @@ def beta_var_covar_matrix(biased_X, y, beta_vector):
     SSE = sum_squared_error(biased_X, y, beta_vector)
     MSE = SSE / dof
 
-    return MSE * sp.linalg.inv(np.dot(biased_X.T, biased_X))
+    return MSE * np.linalg.inv(np.dot(biased_X.T, biased_X))
 
 
 def t_value(biased_X, y, beta_vector):

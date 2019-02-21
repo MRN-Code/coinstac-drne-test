@@ -6,7 +6,6 @@ regression with decentralized statistic calculation
 """
 import json
 import sys
-import scipy as sp
 import numpy as np
 import regression as reg
 
@@ -69,7 +68,7 @@ def remote_1(args):
 
     avg_beta_vector = sum([
         np.matmul(
-            sp.linalg.inv(beta_vector_1),
+            np.linalg.inv(beta_vector_1),
             input_list[site]["Xtransposey_local"]) for site in input_list
     ])
 
@@ -143,7 +142,7 @@ def remote_2(args):
 
     r_squared_global = 1 - (SSE_global / SST_global)
     MSE = SSE_global / dof_global
-    var_covar_beta_global = MSE * sp.linalg.inv(varX_matrix_global)
+    var_covar_beta_global = MSE * np.linalg.inv(varX_matrix_global)
     se_beta_global = np.sqrt(var_covar_beta_global.diagonal())
     ts_global = avg_beta_vector / se_beta_global
     ps_global = reg.t_to_p(ts_global, dof_global)
@@ -164,7 +163,7 @@ def remote_2(args):
 
 if __name__ == '__main__':
 
-    parsed_args = json.loads(sys.argv[1])
+    parsed_args = json.loads(sys.stdin.read())
 
     if parsed_args['input']['local0']['computation_phase'] == 'local_1':
         computation_output = remote_1(parsed_args)
